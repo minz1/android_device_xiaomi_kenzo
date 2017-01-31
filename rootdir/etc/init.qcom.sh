@@ -112,3 +112,9 @@ cp -r /firmware/image/modem_pr/mcfg/configs/* /data/misc/radio/modem_config
 chown -hR radio.radio /data/misc/radio/modem_config
 echo 1 > /data/misc/radio/copy_complete
 chown radio:radio /data/misc/radio/copy_complete
+
+if [ -d /sys/class/goodix_fp ]; then
+    setprop persist.sys.fp.sensor goodix
+else
+    setprop persist.sys.fp.sensor fpc
+fi

@@ -160,6 +160,10 @@ on boot
     chown system system /sys/class/leds/green/led_time
     chown system system /sys/class/leds/blue/led_time
 
+    # Goodix FP
+    chown system system /dev/goodix_fp
+    chmod 0644 /dev/goodix_fp
+
 on fs
     mount_all fstab.qcom
     mkdir /persist/data 0700 system system
@@ -285,6 +289,7 @@ on post-fs-data
 
     # Fingerprint
     mkdir /data/fpc 0700 system system
+    mkdir /data/goodix 0770 system system
 
     mkdir /data/tombstones 0771 system system
     mkdir /tombstones/modem 0771 system system
@@ -376,6 +381,15 @@ service qmuxd /system/bin/qmuxd
 
 service netmgrd /system/bin/netmgrd
     class main
+
+service gx_fpd /system/bin/gx_fpd
+    class late_start
+    user system
+    group system
+    disabled
+
+on property:persist.sys.fp.sensor=goodix
+    start gx_fpd
 
 service ipacm-diag /system/bin/ipacm-diag
     class main

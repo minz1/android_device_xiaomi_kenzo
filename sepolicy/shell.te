@@ -1,0 +1,2 @@
+allow shell ctl_default_prop:property_service set;
+allow shell gx_fpd_exec:file getattr;
